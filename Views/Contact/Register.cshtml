@@ -1,0 +1,61 @@
+﻿@model ContactModel
+@{
+    ViewData["Title"] = "Registrar novo contato";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Registrar contato</h1>
+</div>
+
+<form asp-controller="Contact" asp-action="RegisterAction" method="post">
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="nome">Nome</label>
+            <input type="text" asp-for="Name" class="form-control" placeholder="Nome do contato">
+            @Html.ValidationMessageFor(x => x.Name)
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="email">E-mail</label>
+            <input type="email" asp-for="Email" class="form-control" placeholder="E-mail para contato">
+            @Html.ValidationMessageFor(x => x.Email)
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="celular">Celular</label>
+            <input type="text" asp-for="Phone" class="form-control" placeholder="Celular para contato">
+            @Html.ValidationMessageFor(x => x.Phone)
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="cep">Cep</label>
+            <button type="submit" class="btn btn-outline-secondary" asp-controller="Contact" asp-action="CepConsultAction" role="button">Consultar CEP</button>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="Address">Endereço</label>
+            <input type="text" asp-for="Address" class="form-control" placeholder="Endereço, nº ">
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="estado">Estado</label>
+            <select class="form-control">
+                <option selected>Selecione um estado...</option>
+                <option>...</option>
+            </select>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="cidade">Cidade</label>
+            <select class="form-control">
+                <option selected>Selecione uma cidade...</option>
+                <option>...</option>
+            </select>
+        </div>
+    </div>
+
+    
+    <br />
+    <button type="submit" class="btn btn-primary" asp-controller="Contact" asp-action="AddNewContact">Confirmar</button>
+    <a class="btn btn-secondary" asp-controller="Contact" asp-action="Index" role="button">Voltar</a>
+</form>
