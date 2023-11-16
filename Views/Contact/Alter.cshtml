@@ -9,7 +9,7 @@
 
 </div>
 
-<form asp-controller="Contact" asp-action="AlterContact" method="post">
+<form asp-controller="Contact" asp-action="Alter" method="post">
     <input type="hidden" asp-for="Id"/>
     <div class="form-row">
         <div class="form-group col-md-6">
@@ -29,33 +29,41 @@
             <input type="text" class="form-control" asp-for="Phone" placeholder="Celular para contato">
             @Html.ValidationMessageFor(x => x.Phone)
         </div>
+        <div class="form-group col-md-6 d-flex">
+            <input type="text" asp-for="CEP" class="form-control" placeholder="Cep">
+            @Html.ValidationMessageFor(x => x.CEP)
+            <button type="submit" class="btn btn-outline-secondary" asp-controller="Contact" asp-action="CepConsultAlterAction" role="button">Consultar</button>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="Address">Endereço</label>
+            <input type="text" asp-for="Address" class="form-control" placeholder=". . ." readonly class="form-control-plaintext">
+            @Html.ValidationMessageFor(x => x.Address)
+        </div>
+
+        <div class="row">
+            <div class="form-group w-25 p-3">
+                <label for="Number">Numero</label>
+                <input type="text" asp-for="Number" class="form-control" placeholder=". . .">
+            </div>
+
+            <div class="form-group w-25 p-3">
+                <label for="Complement">Complemento</label>
+                <input type="text" asp-for="Complement" class="form-control" placeholder=". . .">
+            </div>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="estado">Estado</label>
+            <input type="text" asp-for="Region" class="form-control" placeholder=". . ." readonly class="form-control-plaintext">
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="cidade">Cidade</label>
+            <input type="text" asp-for="City" class="form-control" placeholder=". . ." readonly class="form-control-plaintext">
+        </div>
     </div>
 
-    <div class="form-group col-md-2">
-        <label for="CEP">CEP</label>
-        <input type="text" class="form-control" asp-for="CEP">
-    </div>
-
-    <div class="form-group">
-        <label for="Address">Endereço</label>
-        <input type="text" class="form-control" asp-for="Address" placeholder="Endereço, nº ">
-    </div>
-
-    <div class="form-group col-md-4">
-        <label for="estado">Estado</label>
-        <select class="form-control">
-            <option selected>Selecione um estado...</option>
-            <option>...</option>
-        </select>
-    </div>
-
-    <div class="form-group col-md-4">
-        <label for="cidade">Cidade</label>
-        <select class="form-control">
-            <option selected>Selecione uma cidade...</option>
-            <option>...</option>
-        </select>
-    </div>
     <br />
     <button type="submit" class="btn btn-primary" asp-controller="Contact" asp-action="AlterAction">Confirmar</button>
     <a class="btn btn-secondary" asp-controller="Contact" asp-action="Index" role="button">Voltar</a>

@@ -1,4 +1,4 @@
-﻿using AgendaDeContatos.DataBase;
+﻿using AgendaDeContatos.EntityFramework.DataBase;
 using AgendaDeContatos.Integration.Common;
 using AgendaDeContatos.Integration.Response;
 using AgendaDeContatos.Models;
@@ -36,12 +36,17 @@ namespace AgendaDeContatos.Repository
             ContactModel existentContact = GetById(contact.Id);
 
             if (existentContact is null) throw new Exception("Ocorreu um problema ao atualizar dados do contato");
-          
+           
             existentContact.Name = contact.Name;
             existentContact.Email = contact.Email;
-            existentContact.Phone = contact.Phone;      
+            existentContact.Phone = contact.Phone;
             existentContact.CEP = contact.CEP;
             existentContact.Address = contact.Address;
+            existentContact.Number = contact.Number;
+            existentContact.Complement = contact.Complement;
+            existentContact.City = contact.City;
+            existentContact.Region = contact.Region;
+
 
             _dbContext.TblContacts.Update(existentContact);
             _dbContext.SaveChanges();
@@ -63,10 +68,8 @@ namespace AgendaDeContatos.Repository
 
         public ContactModel GetViaCepAPIData(ContactModel contact)
         {
-            contact.Address = "Teste";
-            contact.Name = "Teste2";
-            return contact;
-            string routeBuilt = CommonApi.ViaCepUri.Replace("{cep}", contact.CEP);
+            string cepValidate = string.IsNullOrEmpty(contact.CEP) ? "" :  contact.CEP.Replace("-", "");
+            string routeBuilt = CommonApi.ViaCepRoute.Replace("{cep}", cepValidate);
 
             var client = new RestClient(CommonApi.ViaCepUri + routeBuilt);
 
@@ -81,23 +84,25 @@ namespace AgendaDeContatos.Repository
                     {
                         ViaCepResponse? result = JsonConvert.DeserializeObject<ViaCepResponse>(response.Content);
 
-                        contact.Address = result.Bairro;
-                        contact.Name = result.Uf;
+                        if (result.Logradouro != null)
+                        {
+                            contact.Address = $"{result.Logradouro} , {result.Bairro}";
+                            contact.Region = result.Uf;
+                            contact.City = result.Localidade;
 
-                        return contact;
+                            return contact;
+                        }    
                     }
+
                 }
-                else
-                {
-                    Console.WriteLine($"Erro na solicitação. Código de status: {response.StatusCode}");
-                }
+                contact.CEP = "Cep não encontrado";
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Ocorreu um erro: {ex.Message}");
+                throw new Exception(ex.Message);
             }
 
-            return null;
+            return contact;
         }
     }
 }

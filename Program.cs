@@ -1,6 +1,7 @@
-using AgendaDeContatos.DataBase;
+using AgendaDeContatos.EntityFramework.DataBase;
 using AgendaDeContatos.Repository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace AgendaDeContatos
 {
@@ -13,12 +14,16 @@ namespace AgendaDeContatos
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+
+
             builder.Services.AddDbContext<DataBaseContext>(op => op
-                                                              .UseSqlServer(builder.Configuration
-                                                              .GetConnectionString("SuperlogicaTestConnectionString")));
+                                                          .UseSqlServer(builder.Configuration
+                                                          .GetConnectionString("SuperlogicaTestConnectionString")));
             builder.Services.AddScoped<IContactRepository, ContactRepository>();
 
             var app = builder.Build();
+
+            InitializeDatabase(app.Services);
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -36,6 +41,15 @@ namespace AgendaDeContatos
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
+        }
+
+        public static void InitializeDatabase(IServiceProvider serviceProvider)
+        {
+            using (var scope = serviceProvider.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetRequiredService<DataBaseContext>();
+                dbContext.Database.Migrate();
+            }
         }
     }
 }

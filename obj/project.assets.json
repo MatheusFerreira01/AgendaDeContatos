@@ -3489,11 +3489,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\!!ESTUDOS\\Teste_Superlogica\\AgendaDeContatos\\AgendaDeContatos.csproj",
+      "projectUniqueName": "C:\\!!ESTUDOS\\AgendaDeContatos\\AgendaDeContatos.csproj",
       "projectName": "AgendaDeContatos",
-      "projectPath": "C:\\!!ESTUDOS\\Teste_Superlogica\\AgendaDeContatos\\AgendaDeContatos.csproj",
+      "projectPath": "C:\\!!ESTUDOS\\AgendaDeContatos\\AgendaDeContatos.csproj",
       "packagesPath": "C:\\Users\\Ferreira\\.nuget\\packages\\",
-      "outputPath": "C:\\!!ESTUDOS\\Teste_Superlogica\\AgendaDeContatos\\obj\\",
+      "outputPath": "C:\\!!ESTUDOS\\AgendaDeContatos\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "D:\\Program Files\\DevExpress 23.1\\Components\\Offline Packages",

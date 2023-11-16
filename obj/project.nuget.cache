@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "rJxLig+/RWjGEqL0s1xOZ6RyqQEWCQbXAy2aUU3xneocwS2T1UQ+wxZxRf1q1LYgviCIPr2BA4/RL79OgxWkXg==",
+  "dgSpecHash": "sscDoeZPbs/N13choHbTH5f+CHL7mG3x6WP9sGxfXwy67t0XugQXxS9/NIxsjgEpZyZmaAsGPLynuoEHzrqSvw==",
   "success": true,
-  "projectFilePath": "C:\\!!ESTUDOS\\Teste_Superlogica\\AgendaDeContatos\\AgendaDeContatos.csproj",
+  "projectFilePath": "C:\\!!ESTUDOS\\AgendaDeContatos\\AgendaDeContatos.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Ferreira\\.nuget\\packages\\azure.core\\1.25.0\\azure.core.1.25.0.nupkg.sha512",
     "C:\\Users\\Ferreira\\.nuget\\packages\\azure.identity\\1.7.0\\azure.identity.1.7.0.nupkg.sha512",

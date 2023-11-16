@@ -17,8 +17,13 @@ namespace AgendaDeContatos.Controllers
         #region Metodos vinculados a View
         public IActionResult Alter(int id)
         {
-            ContactModel contact = _contactRep.GetById(id);
-            return View(contact);
+            ContactModel contactById = _contactRep.GetById(id);
+            return View(contactById);
+        }
+
+        public IActionResult CurrentAlter(ContactModel contact)
+        {
+            return View("Alter");
         }
 
         public IActionResult Delete(int id)
@@ -32,28 +37,41 @@ namespace AgendaDeContatos.Controllers
             List<ContactModel> contactList = _contactRep.GetAll().Where(x => x.IsActive).ToList();
             return View(contactList);
         }
-        public IActionResult Register()
+        public IActionResult Register(ContactModel contact)
         {
-            return View();
-        }
-
-        public IActionResult RegisterWithContent(ContactModel contact)
-        {
-            return View("Register", contact);
+            return View(contact);
         }
 
         #endregion
 
         #region Metodos Action
-        public IActionResult CepConsultAction(ContactModel contact)
+        public IActionResult CepConsultRegisterAction(ContactModel contact)
         {
-            ContactModel test = new ContactModel();
+            try
+            {
+                ContactModel contactWAddress = _contactRep.GetViaCepAPIData(contact);
+                return RedirectToAction("Register", contactWAddress);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Problema ao consultar a api: {ex.Message}";
+                return RedirectToAction("Index");
+            }
+        }
 
-            test.Address = "Rua Exemplo, 123";
-            test.Name = "Zeeeeeeee";
+        public IActionResult CepConsultAlterAction(ContactModel contact)
+        {
+            try
+            {
+                ContactModel contactWAddress = _contactRep.GetViaCepAPIData(contact);
 
-            //ContactModel contactWAddress = _contactRep.GetViaCepAPIData(contact);
-            return View("RegisterWithContent", test);
+                return RedirectToAction("CurrentAlter", contactWAddress);
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = $"Problema ao consultar a api: {ex.Message}";
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPost]
@@ -74,12 +92,9 @@ namespace AgendaDeContatos.Controllers
             {
                 TempData["ErrorMessage"] = $"Problema ao CADASTRAR o contato: {ex.Message}";
                 return RedirectToAction("Index");
-
             }
 
         }
-
-        [HttpPost]
         public IActionResult AlterAction(ContactModel contact)
         {
             try
@@ -91,7 +106,7 @@ namespace AgendaDeContatos.Controllers
                     return RedirectToAction("Index");
                 }
 
-                return View(contact);
+                return View("CurrentAlter", contact);
             }
             catch (Exception ex)
             {
@@ -99,7 +114,6 @@ namespace AgendaDeContatos.Controllers
                 return RedirectToAction("Index");
             }
         }
-        [HttpGet]
         public IActionResult DeleteAction(int id)
         {
             try
